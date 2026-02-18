@@ -18,6 +18,7 @@ import streamlit as st
 import anthropic
 import requests
 import re
+import random
 from pathlib import Path
 
 from prompt import build_system_prompt
@@ -465,9 +466,14 @@ with active_tabs[0]:
 
     # Suggestion buttons when conversation is empty
     if not st.session_state.messages and st.session_state.message_count < max_questions:
-        suggestions = [q.format(name=agent_name) for q in t["example_questions"][:3]]
+        # Pick random questions from the pool, stable per candidate
+        rng = random.Random(st.session_state.current_agent)
         if job_description:
-            suggestions = [q.format(name=agent_name) for q in t["job_questions"][:2]] + suggestions[:1]
+            jq = [q.format(name=agent_name) for q in rng.sample(t["job_questions"], 2)]
+            eq = [q.format(name=agent_name) for q in rng.sample(t["example_questions"], 1)]
+            suggestions = jq + eq
+        else:
+            suggestions = [q.format(name=agent_name) for q in rng.sample(t["example_questions"], 3)]
         cols = st.columns(len(suggestions))
         for i, (col, q) in enumerate(zip(cols, suggestions)):
             with col:
