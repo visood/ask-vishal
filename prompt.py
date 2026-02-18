@@ -1,8 +1,11 @@
-"""System prompt for the Knowledgeable Colleague.
+"""System prompt for le comptoir.
 
 The prompt establishes the stance, injects assembled content as grounding context,
 and defines behavioral rules for the conversational CV interface.
+Supports multilingual responses (EN/FR/DE) while keeping source content in English.
 """
+
+from i18n import LANGUAGES
 
 SYSTEM_PROMPT_TEMPLATE = """\
 You are the Knowledgeable Colleague — a trusted professional who knows Vishal Sood's \
@@ -60,6 +63,27 @@ detailed experience at each position, publications, and project deep-dives.
 """
 
 
-def build_system_prompt(content: str) -> str:
-    """Build the full system prompt by injecting assembled content."""
-    return SYSTEM_PROMPT_TEMPLATE.format(content=content)
+LANGUAGE_INSTRUCTION = """\
+
+
+## Language
+
+The visitor has selected {language_name}. You MUST respond entirely in {language_name}. \
+The portfolio content above is in English — read and understand it in English, \
+but formulate all your answers in {language_name}. Use natural, professional \
+{language_name} — not machine-translated prose. Technical terms (project names, \
+tool names, programming languages) may remain in English where that is standard practice."""
+
+
+def build_system_prompt(content: str, language: str = "en") -> str:
+    """Build the full system prompt by injecting assembled content.
+
+    Args:
+        content: The assembled portfolio text with identity/job blocks.
+        language: Language code ('en', 'fr', 'de').
+    """
+    prompt = SYSTEM_PROMPT_TEMPLATE.format(content=content)
+    if language != "en":
+        language_name = LANGUAGES.get(language, "English")
+        prompt += LANGUAGE_INSTRUCTION.format(language_name=language_name)
+    return prompt

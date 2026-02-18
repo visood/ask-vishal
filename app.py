@@ -1,7 +1,8 @@
-"""The Knowledgeable Colleague — Streamlit chat interface.
+"""le comptoir — Streamlit chat interface.
 
 A conversational CV where visitors talk to an AI that knows Vishal Sood's work deeply.
 Features:
+  - Language selector (English, Français, Deutsch)
   - Professional identity selector (adapt framing to role type)
   - Job description matching (paste text or URL, get a fit analysis)
   - Conversational Q&A grounded in portfolio content
@@ -16,6 +17,7 @@ import re
 from pathlib import Path
 
 from prompt import build_system_prompt
+from i18n import LANGUAGES, STRINGS
 
 
 # --- Configuration ---
@@ -95,7 +97,8 @@ def get_client():
         return anthropic.Anthropic()
 
 
-def get_system_prompt(identity_key: str, job_description: str = "") -> str:
+def get_system_prompt(identity_key: str, job_description: str = "",
+                      language: str = "en") -> str:
     """Build system prompt with identity framing and optional job context."""
     content = get_base_content()
     title, summary = IDENTITIES[identity_key]
@@ -126,22 +129,22 @@ def get_system_prompt(identity_key: str, job_description: str = "") -> str:
             f"domain but structurally similar, make the translation explicit.\n"
         )
 
-    return build_system_prompt(content + identity_block + job_block)
+    return build_system_prompt(content + identity_block + job_block,
+                               language=language)
 
 
 def fetch_url_text(url: str) -> str:
     """Fetch a URL and extract readable text."""
     try:
         resp = requests.get(url, timeout=15, headers={
-            "User-Agent": "Mozilla/5.0 (compatible; KnowledgeableColleague/1.0)"
+            "User-Agent": "Mozilla/5.0 (compatible; LeComptoir/1.0)"
         })
         resp.raise_for_status()
-        # Strip HTML tags for a rough text extraction
         text = re.sub(r'<script[^>]*>.*?</script>', '', resp.text, flags=re.DOTALL)
         text = re.sub(r'<style[^>]*>.*?</style>', '', text, flags=re.DOTALL)
         text = re.sub(r'<[^>]+>', ' ', text)
         text = re.sub(r'\s+', ' ', text).strip()
-        return text[:10000]  # cap at ~10K chars to stay within budget
+        return text[:10000]
     except Exception as e:
         return f"[Could not fetch URL: {e}]"
 
@@ -150,12 +153,25 @@ def fetch_url_text(url: str) -> str:
 with st.sidebar:
     st.title("Vishal Sood")
 
+    # Language selector
+    lang_options = list(LANGUAGES.keys())
+    lang_labels = list(LANGUAGES.values())
+    lang = st.selectbox(
+        "Language",
+        options=lang_options,
+        format_func=lambda code: LANGUAGES[code],
+        index=0,
+    )
+    t = STRINGS[lang]
+
+    st.divider()
+
     # Identity selector
     identity = st.selectbox(
-        "Professional identity",
+        t["identity_label"],
         options=list(IDENTITIES.keys()),
         index=list(IDENTITIES.keys()).index(DEFAULT_IDENTITY),
-        help="Changes how the Colleague frames Vishal's experience",
+        help=t["identity_help"],
     )
     title, summary = IDENTITIES[identity]
     st.caption(title)
@@ -163,25 +179,26 @@ with st.sidebar:
     st.divider()
 
     # Job description input
-    st.markdown("**Match against a job**")
+    st.markdown(t["job_header"])
+    job_radio_options = [t["job_radio_none"], t["job_radio_paste"], t["job_radio_url"]]
     job_input_method = st.radio(
-        "Provide job description via:",
-        ["None", "Paste text", "URL"],
+        "job_method",
+        job_radio_options,
         index=0,
         label_visibility="collapsed",
     )
 
     job_description = ""
-    if job_input_method == "Paste text":
+    if job_input_method == t["job_radio_paste"]:
         job_description = st.text_area(
-            "Job description",
+            t["job_textarea_label"],
             height=150,
-            placeholder="Paste the job description here...",
+            placeholder=t["job_placeholder"],
         )
-    elif job_input_method == "URL":
-        job_url = st.text_input("Job posting URL", placeholder="https://...")
+    elif job_input_method == t["job_radio_url"]:
+        job_url = st.text_input("URL", placeholder=t["job_url_placeholder"])
         if job_url:
-            with st.spinner("Fetching..."):
+            with st.spinner(t["job_fetching"]):
                 job_description = fetch_url_text(job_url)
             if job_description.startswith("[Could not"):
                 st.warning(job_description)
@@ -191,22 +208,12 @@ with st.sidebar:
 
     st.divider()
 
-    # Example questions — job-matching questions appear when a job is loaded
-    st.markdown("**Try asking:**")
+    # Example questions
+    st.markdown(t["try_asking"])
     example_questions = []
     if job_description:
-        example_questions = [
-            "How does Vishal match this role?",
-            "What gaps should he address for this position?",
-            "Write a cover letter for this role.",
-        ]
-    example_questions += [
-        "What did Vishal build at the Blue Brain Project?",
-        "How does his physics background apply to quantitative finance?",
-        "Tell me about his publications on complex networks.",
-        "What experience does he have with HPC and parallel computing?",
-        "How did he transition between scientific domains?",
-    ]
+        example_questions = list(t["job_questions"])
+    example_questions += list(t["example_questions"])
 
     for q in example_questions:
         if st.button(q, use_container_width=True):
@@ -214,16 +221,12 @@ with st.sidebar:
             st.rerun()
 
     st.divider()
-    st.caption(
-        "*le comptoir* — an AI agent who knows Vishal's work. "
-        "Answers are grounded in his actual portfolio."
-    )
+    st.caption(t["footer"])
     st.caption(f"Model: `{MODEL}`")
     used = st.session_state.get("message_count", 0)
-    # Haiku: $0.80/M input, $4/M output. ~80K input tokens per turn, ~500 output tokens.
     input_cost = used * 80_000 * 0.80 / 1_000_000
     output_cost = used * 500 * 4.00 / 1_000_000
-    st.caption(f"Est. cost this session: ${input_cost + output_cost:.2f}")
+    st.caption(t["cost_label"].format(cost=input_cost + output_cost))
 
 
 # --- Initialize state ---
@@ -233,15 +236,20 @@ if "message_count" not in st.session_state:
     st.session_state.message_count = 0
 
 # --- Load resources ---
-system_prompt = get_system_prompt(identity, job_description)
+system_prompt = get_system_prompt(identity, job_description, language=lang)
 client = get_client()
 
 # --- Header ---
 st.title("Vishal Sood")
 st.caption(f"*{title}*")
-st.markdown("*le comptoir* — ask about his work")
+st.markdown(t["header_tagline"])
 remaining = MAX_MESSAGES_PER_SESSION - st.session_state.message_count
-st.caption(f"{remaining} free question{'s' if remaining != 1 else ''} remaining")
+if lang == "de":
+    plural = "n" if remaining != 1 else ""
+    st.caption(t["remaining"].format(n=remaining, n_de=plural))
+else:
+    plural = "s" if remaining != 1 else ""
+    st.caption(t["remaining"].format(n=remaining, s=plural))
 
 # --- Display conversation history ---
 for msg in st.session_state.messages:
@@ -256,13 +264,8 @@ if "pending_question" in st.session_state:
 
 # --- Chat input ---
 if st.session_state.message_count >= MAX_MESSAGES_PER_SESSION:
-    st.info(
-        f"You've used all {MAX_MESSAGES_PER_SESSION} questions in the free tier. "
-        "A paid version with extended conversations and deeper analysis is coming soon.\n\n"
-        "In the meantime, reach Vishal directly at "
-        "**vishal.chandra.sood@protonmail.com**"
-    )
-elif prompt or (prompt := st.chat_input("Ask about Vishal's work...")):
+    st.info(t["exhausted"].format(n=MAX_MESSAGES_PER_SESSION))
+elif prompt or (prompt := st.chat_input(t["chat_placeholder"])):
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.session_state.message_count += 1
 
