@@ -1,0 +1,98 @@
+--- Professional Identity ---
+
+Name: Sophie Andersen
+Title: Senior Compliance Officer / Regulatory Affairs Specialist
+Location: Lausanne, Switzerland (previously Zurich)
+
+Summary: A compliance and regulatory specialist with 18 years of experience across corporate banking, trade finance, and asset management. Built compliance programs from scratch for two Swiss banks entering new markets. Expert in Swiss and EU financial regulation, with deep knowledge of cross-border banking, sanctions compliance, and fintech regulatory frameworks. Relocated from Zurich to Lausanne for family reasons, seeking her next role in the Arc Lemanique.
+
+--- Areas of Expertise ---
+
+1. Regulatory Compliance & Governance
+   - Designed and implemented compliance frameworks aligned with FINMA circulars, FIDLEG, FinIA, and AMLA
+   - Built compliance monitoring programs covering advisory, discretionary, and execution-only services
+   - Led regulatory change management processes, translating new legislation into operational procedures
+   - Developed board-level compliance reporting and risk appetite frameworks
+
+2. Cross-Border Banking & Sanctions
+   - Built cross-border compliance matrices for 40+ jurisdictions, covering tax transparency, licensing, and solicitation rules
+   - Managed the bank's sanctions screening program (OFAC, EU, SECO), including alert investigation and escalation
+   - Led remediation projects for legacy cross-border client relationships during the Swiss banking transparency transition
+   - Designed training programs for relationship managers on cross-border rules and red flags
+
+3. Trade Finance Compliance
+   - Specialized in trade-based money laundering detection for commodity trade finance
+   - Designed due diligence frameworks for complex trade structures (letters of credit, documentary collections, pre-export finance)
+   - Built vessel tracking and cargo verification procedures for sanctions compliance in shipping finance
+   - Worked with SWIFT and trade finance platforms on compliance automation
+
+4. AML/KYC & Financial Crime Prevention
+   - Designed enhanced due diligence processes for PEP, high-risk country, and complex structure clients
+   - Led suspicious activity investigation and SAR filing processes
+   - Implemented transaction monitoring systems (Actimize, Fircosoft) with tuned alert scenarios
+   - Managed MROS (Swiss FIU) reporting relationships and regulatory examinations
+
+5. Fintech & Digital Banking Regulation
+   - Advised on regulatory requirements for a digital banking platform launch (sandbox regime)
+   - Assessed compliance implications of blockchain-based asset tokenization
+   - Developed customer onboarding compliance for digital channels (video identification, e-signatures)
+
+--- Career History ---
+
+Banque Cantonale Vaudoise (BCV), Lausanne (2020-2024)
+Senior Compliance Officer, Corporate & Institutional Banking
+
+Managed compliance oversight for BCV's corporate banking and trade finance divisions.
+
+Key contributions:
+- Rebuilt the trade finance compliance framework following a FINMA finding, achieving full remediation within 9 months
+- Implemented a new transaction monitoring system for trade finance, reducing false positive alerts by 45% while improving detection of genuine suspicious patterns
+- Led the compliance workstream for BCV's digital banking platform launch, defining KYC, AML, and suitability requirements for the digital channel
+- Designed the compliance training curriculum for 200+ corporate banking staff, with role-specific modules for relationship managers, credit analysts, and operations
+- Managed the bank's response to sanctions escalations related to the Russia-Ukraine conflict, including emergency client screening, asset freezing procedures, and SECO reporting
+
+Zuercher Kantonalbank (ZKB), Zurich (2012-2020)
+Compliance Manager, Asset Management Division
+
+Built and led the compliance function for ZKB's growing asset management business.
+
+Key contributions:
+- Designed the compliance framework from scratch for ZKB's new asset management entity under the Collective Investment Schemes Act (CISA)
+- Implemented pre-trade and post-trade compliance monitoring for 50+ funds and mandates
+- Led the FinIA/FIDLEG implementation project, translating the new regulations into policies, procedures, and system requirements
+- Built a cross-border distribution compliance program for fund marketing across EU jurisdictions (AIFMD, UCITS)
+- Managed regulatory examinations and external audit processes with consistently positive outcomes
+
+UBS, Zurich (2006-2012)
+Compliance Analyst, then Senior Compliance Analyst, Wealth Management
+
+Started career in compliance at UBS Wealth Management during the period of maximum regulatory pressure on Swiss banking.
+
+Key contributions:
+- Part of the team that managed UBS's cross-border compliance remediation program following the US DOJ investigation
+- Developed enhanced due diligence procedures for US-connected persons
+- Built compliance monitoring tools for the advisory business
+- Supported the implementation of UBS's global compliance framework in the Swiss booking center
+
+--- Education ---
+
+Master of Law (MLaw), Universite de Zurich (2006)
+Specialization in Banking and Financial Market Law
+CAS in Compliance Management, Universite de Geneve (2014)
+CAMS (Certified Anti-Money Laundering Specialist) (2015)
+
+--- Languages ---
+
+German: Native (Swiss German and High German)
+French: Fluent (C1, improved significantly since moving to Lausanne)
+English: Fluent (C2)
+
+--- Professional Interests ---
+
+Sophie is looking for senior compliance roles in the Lausanne-Geneva corridor. She is particularly interested in:
+- Head of Compliance positions at mid-sized banks or asset managers in Romandie
+- Compliance consulting for banks navigating FIDLEG implementation and fintech regulation
+- Regulatory affairs roles at fintech or wealthtech companies in the Arc Lemanique
+- Interim compliance mandates for banks undergoing regulatory remediation
+
+She brings a rare combination: deep technical compliance expertise, experience across German-speaking and French-speaking Swiss banking cultures, and a track record of building compliance programs that work in practice, not just on paper.

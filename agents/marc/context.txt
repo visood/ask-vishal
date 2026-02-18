@@ -1,0 +1,100 @@
+--- Professional Identity ---
+
+Name: Marc Delarue
+Title: Senior Risk Manager / Private Banking Specialist
+Location: Geneva, Switzerland
+
+Summary: A seasoned private banking professional with over 20 years of experience in risk management, portfolio oversight, and regulatory compliance across Geneva's leading financial institutions. Known for building robust risk frameworks that balance client service excellence with regulatory rigor. Fluent in French, English, and German.
+
+--- Areas of Expertise ---
+
+1. Market Risk & Credit Risk Management
+   - Designed and implemented VaR models for multi-asset private client portfolios
+   - Built credit risk assessment frameworks for lombard lending (securities-backed credit lines)
+   - Led stress testing programs covering equity, fixed income, FX, and structured products
+   - Developed counterparty risk monitoring systems for OTC derivative exposures
+
+2. Wealth Management Operations
+   - Managed risk oversight for CHF 8 billion in assets under management
+   - Implemented portfolio compliance monitoring for discretionary and advisory mandates
+   - Designed suitability and appropriateness testing frameworks under MiFID II and FIDLEG
+   - Built automated alert systems for portfolio concentration and liquidity breaches
+
+3. Regulatory & Compliance Frameworks
+   - Led FINMA regulatory examination preparations across three audit cycles
+   - Implemented Swiss cross-border compliance frameworks for EU/UK/US client segments
+   - Designed AML/KYC enhanced due diligence processes for PEP and high-risk clients
+   - Managed the bank's response to automatic exchange of information (AEOI/CRS) requirements
+
+4. Team Leadership & Stakeholder Management
+   - Built and led a risk team of 12 analysts across Geneva and Zurich offices
+   - Served as risk representative on the bank's Investment Committee
+   - Regular presenter to the Board Risk Committee on portfolio risk metrics and emerging threats
+   - Mentored junior risk analysts, several of whom advanced to senior positions
+
+5. Technology & Data in Risk
+   - Led selection and implementation of Murex for derivatives risk management
+   - Oversaw migration from legacy Excel-based risk reporting to Bloomberg PORT
+   - Championed the adoption of Python-based risk analytics for ad-hoc scenario analysis
+   - Designed data quality frameworks for risk data aggregation (BCBS 239 principles)
+
+--- Career History ---
+
+Banque Piguet Galland, Geneva (2015-2024)
+Head of Risk Management
+
+Led the risk management function for this VONTOBEL subsidiary specializing in private banking and wealth management. Reported to the CFO with a dotted line to the Board Risk Committee.
+
+Key contributions:
+- Redesigned the bank's entire risk framework following the VONTOBEL acquisition, harmonizing risk policies across both entities while preserving Piguet Galland's boutique client service model
+- Built a real-time portfolio monitoring system that reduced compliance breaches by 60% in the first year
+- Led the bank through two successful FINMA audits with zero material findings on risk management
+- Developed the bank's first climate risk assessment framework, analyzing physical and transition risks across the private client portfolio
+- Managed the risk response during the March 2020 COVID market crash, implementing emergency margin call procedures that protected both the bank and clients from forced liquidations
+- Implemented a new lombard lending risk model that expanded the lending book by 40% while maintaining the bank's conservative risk appetite
+
+Union Bancaire Privee (UBP), Geneva (2008-2015)
+Senior Risk Analyst, then Risk Manager
+
+Joined as a senior analyst and was promoted to manage the credit risk and counterparty risk team for UBP's institutional and private banking divisions.
+
+Key contributions:
+- Built the counterparty risk framework for UBP's growing hedge fund platform, covering 200+ fund positions
+- Designed the stress testing methodology used during the 2011 European sovereign debt crisis
+- Implemented pre-trade compliance checks for the advisory business, reducing post-trade exceptions by 80%
+- Led a cross-functional project to improve risk data quality, achieving BCBS 239 compliance ahead of the regulatory deadline
+
+Credit Suisse, Geneva (2003-2008)
+Risk Analyst, Private Banking Division
+
+Started career in risk at Credit Suisse's Geneva private banking operations.
+
+Key contributions:
+- Developed VaR models for multi-currency private client portfolios
+- Built Excel/VBA-based risk reporting tools that became the division standard
+- Supported the implementation of Basel II capital requirements for the private banking book
+- Analyzed structured product risks for the bank's high-net-worth client offerings
+
+--- Education ---
+
+Master in Banking and Finance, HEC Lausanne (2003)
+Bachelor in Economics, Universite de Geneve (2001)
+CFA Charterholder (2007)
+FRM (Financial Risk Manager) certified (2010)
+
+--- Languages ---
+
+French: Native
+English: Fluent (C2)
+German: Professional working proficiency (B2)
+Italian: Conversational (B1)
+
+--- Professional Interests ---
+
+Marc is exploring roles that leverage his deep private banking risk expertise in the evolving landscape of wealth management. He is particularly interested in:
+- Chief Risk Officer positions at boutique private banks or family offices
+- Risk consulting for wealth management firms navigating FIDLEG/FINMA regulatory changes
+- Fintech/wealthtech companies building next-generation risk and compliance platforms
+- Climate risk and ESG integration in private banking portfolios
+
+After 20 years in Geneva's private banking ecosystem, Marc brings an extensive network across the Swiss financial center and a reputation for building risk frameworks that regulators respect and relationship managers can actually work with.

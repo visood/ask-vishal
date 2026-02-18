@@ -1,11 +1,15 @@
 """le comptoir — Streamlit chat interface.
 
-A conversational CV where visitors talk to an AI that knows Vishal Sood's work deeply.
+An inverse-recruitment agency: a roster of professionals in career transition,
+each with their own AI agent that recruiters and hiring managers can talk to.
+
 Features:
-  - Language selector (English, Français, Deutsch)
+  - Candidate roster (select who to talk to)
+  - Language selector (English, Francais, Deutsch)
   - Professional identity selector (adapt framing to role type)
   - Job description matching (paste text or URL, get a fit analysis)
   - Conversational Q&A grounded in portfolio content
+  - Marketing plan with downloadable PDFs
 
 Usage:
     streamlit run app.py
@@ -28,67 +32,186 @@ MAX_TOKENS_FREE = 256
 MAX_TOKENS_UNLOCKED = 1024
 FREE_QUESTIONS = 5
 UNLOCKED_QUESTIONS = 30
-CONTEXT_FILE = Path(__file__).parent / "context.txt"
+AGENTS_DIR = Path(__file__).parent / "agents"
 
-# Professional identity variants: (label, title, summary)
-IDENTITIES = {
-    "Research Engineer": (
-        "Senior Research Engineer",
-        "A Senior Research Engineer with a PhD in Physics and extensive experience "
-        "building robust, scalable computational tools that accelerate scientific "
-        "discovery. Proven ability to translate complex research requirements — from "
-        "neuroscience to genomics — into production-grade software platforms.",
-    ),
-    "Software Engineer": (
-        "Senior Software Developer",
-        "A Systems Architect and Senior Engineer with a proven track record of "
-        "designing and building robust, scalable platforms for data-intensive "
-        "applications. Combines deep, first-principles expertise in statistical "
-        "modeling and algorithms from a PhD in Physics with hands-on experience "
-        "engineering high-performance backends (C++, Python) and complex workflow "
-        "engines for distributed systems.",
-    ),
-    "Quant Engineer": (
-        "Senior Quantitative Research Engineer",
-        "A first-principles thinker with a PhD in Statistical Physics and over a "
-        "decade of experience architecting high-performance computational ecosystems. "
-        "Proven ability to translate the complex stochastic systems underlying "
-        "financial derivatives into robust, low-latency C++ applications and scalable "
-        "Python validation pipelines.",
-    ),
-    "Genomics / Comp Bio": (
-        "Senior Research Engineer / Computational Biology Specialist",
-        "A Senior Research Engineer with extensive experience developing "
-        "high-performance bioinformatics pipelines and clinical-grade software. "
-        "Specialized in architecting scalable C++ / Python solutions for processing "
-        "complex biological data, from large-scale genomics to multi-terabyte "
-        "scientific simulations.",
-    ),
-    "Research Software Engineer": (
-        "Senior Research Software Developer",
-        "Senior research software developer (PhD, Statistical Physics) building "
-        "Python-first research platforms, complex workflow engines, data pipelines, "
-        "and analysis/visualization tooling used by front-office/bench scientists. "
-        "Expert in turning large, heterogeneous datasets into fast, reproducible insights.",
-    ),
+# --- Agent roster ---
+# Each agent: key -> (display_name, tagline, context_file, identities, default_identity)
+AGENTS = {
+    "vishal": {
+        "name": "Vishal Sood",
+        "tagline": "Senior Research Engineer | PhD Physics | HPC, Genomics, Scientific Computing",
+        "context": AGENTS_DIR / "vishal" / "context.txt",
+        "has_plan": True,
+        "identities": {
+            "Research Engineer": (
+                "Senior Research Engineer",
+                "A Senior Research Engineer with a PhD in Physics and extensive experience "
+                "building robust, scalable computational tools that accelerate scientific "
+                "discovery. Proven ability to translate complex research requirements — from "
+                "neuroscience to genomics — into production-grade software platforms.",
+            ),
+            "Software Engineer": (
+                "Senior Software Developer",
+                "A Systems Architect and Senior Engineer with a proven track record of "
+                "designing and building robust, scalable platforms for data-intensive "
+                "applications. Combines deep, first-principles expertise in statistical "
+                "modeling and algorithms from a PhD in Physics with hands-on experience "
+                "engineering high-performance backends (C++, Python) and complex workflow "
+                "engines for distributed systems.",
+            ),
+            "Quant Engineer": (
+                "Senior Quantitative Research Engineer",
+                "A first-principles thinker with a PhD in Statistical Physics and over a "
+                "decade of experience architecting high-performance computational ecosystems. "
+                "Proven ability to translate the complex stochastic systems underlying "
+                "financial derivatives into robust, low-latency C++ applications and scalable "
+                "Python validation pipelines.",
+            ),
+            "Genomics / Comp Bio": (
+                "Senior Research Engineer / Computational Biology Specialist",
+                "A Senior Research Engineer with extensive experience developing "
+                "high-performance bioinformatics pipelines and clinical-grade software. "
+                "Specialized in architecting scalable C++ / Python solutions for processing "
+                "complex biological data, from large-scale genomics to multi-terabyte "
+                "scientific simulations.",
+            ),
+            "Research Software Engineer": (
+                "Senior Research Software Developer",
+                "Senior research software developer (PhD, Statistical Physics) building "
+                "Python-first research platforms, complex workflow engines, data pipelines, "
+                "and analysis/visualization tooling used by front-office/bench scientists. "
+                "Expert in turning large, heterogeneous datasets into fast, reproducible insights.",
+            ),
+        },
+        "default_identity": "Research Engineer",
+    },
+    "marc": {
+        "name": "Marc Delarue",
+        "tagline": "Senior Risk Manager | 20 years Private Banking | CFA, FRM",
+        "context": AGENTS_DIR / "marc" / "context.txt",
+        "has_plan": False,
+        "identities": {
+            "Risk Manager": (
+                "Senior Risk Manager",
+                "A seasoned private banking professional with over 20 years in risk management, "
+                "portfolio oversight, and regulatory compliance across Geneva's leading financial "
+                "institutions. Known for building robust risk frameworks that balance client "
+                "service excellence with regulatory rigor.",
+            ),
+            "CRO / Executive": (
+                "Chief Risk Officer",
+                "An experienced risk executive ready for CRO-level responsibility at boutique "
+                "private banks or family offices. Two decades of building and leading risk teams, "
+                "presenting to board committees, and navigating FINMA regulatory cycles.",
+            ),
+            "Risk Consultant": (
+                "Risk & Compliance Consultant",
+                "A private banking risk specialist available for consulting engagements: "
+                "regulatory remediation, risk framework design, FIDLEG implementation, "
+                "and interim risk management mandates.",
+            ),
+        },
+        "default_identity": "Risk Manager",
+    },
+    "sophie": {
+        "name": "Sophie Andersen",
+        "tagline": "Senior Compliance Officer | 18 years Banking Regulation | MLaw, CAMS",
+        "context": AGENTS_DIR / "sophie" / "context.txt",
+        "has_plan": False,
+        "identities": {
+            "Compliance Officer": (
+                "Senior Compliance Officer",
+                "A compliance and regulatory specialist with 18 years across corporate banking, "
+                "trade finance, and asset management. Expert in Swiss and EU financial regulation, "
+                "cross-border banking, and sanctions compliance.",
+            ),
+            "Head of Compliance": (
+                "Head of Compliance",
+                "Ready for Head of Compliance roles at mid-sized banks or asset managers. "
+                "Built compliance programs from scratch at two Swiss banks, led FIDLEG "
+                "implementation, and managed regulatory examinations with consistently "
+                "positive outcomes.",
+            ),
+            "Regulatory Consultant": (
+                "Regulatory Affairs Consultant",
+                "Available for compliance consulting: FIDLEG implementation, regulatory "
+                "remediation, AML program design, and fintech regulatory advisory. "
+                "Bridges German-speaking and French-speaking Swiss banking cultures.",
+            ),
+        },
+        "default_identity": "Compliance Officer",
+    },
+    "olena": {
+        "name": "Olena Kovalenko",
+        "tagline": "Cardiologist (Ukraine) | Clinical Research | CHUV Lausanne",
+        "context": AGENTS_DIR / "olena" / "context.txt",
+        "has_plan": False,
+        "identities": {
+            "Clinical Researcher": (
+                "Clinical Research Professional",
+                "A physician with 12 years of cardiology experience and active clinical "
+                "research at CHUV. Experienced in multicenter clinical trials, GCP, "
+                "and medical device evaluations. Pursuing Swiss medical equivalence.",
+            ),
+            "Medical Doctor": (
+                "Cardiologist (MEBEKO pathway)",
+                "A board-certified cardiologist with 12 years of clinical practice, "
+                "3,000+ echocardiograms, and ward chief experience. Completing the "
+                "Swiss equivalence pathway while contributing to research at CHUV.",
+            ),
+            "Medtech / MSL": (
+                "Medical Science Liaison / Clinical Affairs",
+                "Leveraging deep cardiology expertise for medical device and pharmaceutical "
+                "roles: MSL, clinical affairs, medical writing, and regulatory documentation "
+                "from the physician's perspective.",
+            ),
+        },
+        "default_identity": "Clinical Researcher",
+    },
+    "david": {
+        "name": "David Chen",
+        "tagline": "Technical Writer | 15 years Medtech | EU MDR, Catalogs, CCMS",
+        "context": AGENTS_DIR / "david" / "context.txt",
+        "has_plan": False,
+        "identities": {
+            "Technical Writer": (
+                "Senior Technical Writer / Documentation Lead",
+                "A technical communicator with 15 years creating product catalogs, "
+                "regulatory documentation, and surgical technique guides for Swiss "
+                "medtech companies. Expert in structured content management and "
+                "multilingual publishing.",
+            ),
+            "Regulatory Documentation": (
+                "Regulatory Documentation Specialist",
+                "Specialized in EU MDR documentation: IFUs, labeling, technical files, "
+                "and CE marking submissions. Led MDR transition projects for 400+ documents "
+                "at a major spine surgery company.",
+            ),
+            "Content Strategy": (
+                "Content Strategy & PIM Specialist",
+                "Helping medtech companies move from legacy documentation to digital-first "
+                "product content. Experienced with CCMS, PIM systems, single-source publishing, "
+                "and automated translation workflows.",
+            ),
+        },
+        "default_identity": "Technical Writer",
+    },
 }
-
-DEFAULT_IDENTITY = "Research Engineer"
 
 
 # --- Page config ---
 st.set_page_config(
-    page_title="Vishal Sood — le comptoir",
-    page_icon="🔬",
+    page_title="le comptoir",
+    page_icon="🏪",
     layout="centered",
 )
 
 
 # --- Cached resources ---
 @st.cache_resource
-def get_base_content():
-    """Load pre-assembled portfolio content (cached — done once)."""
-    return CONTEXT_FILE.read_text(encoding="utf-8")
+def load_context(path: str) -> str:
+    """Load a candidate's portfolio content (cached per path)."""
+    return Path(path).read_text(encoding="utf-8")
 
 
 @st.cache_resource
@@ -101,18 +224,19 @@ def get_client():
         return anthropic.Anthropic()
 
 
-def get_system_prompt(identity_key: str, job_description: str = "",
+def get_system_prompt(agent: dict, identity_key: str, job_description: str = "",
                       language: str = "en", concise: bool = False) -> str:
     """Build system prompt with identity framing and optional job context."""
-    content = get_base_content()
-    title, summary = IDENTITIES[identity_key]
+    content = load_context(str(agent["context"]))
+    name = agent["name"]
+    title, summary = agent["identities"][identity_key]
 
     identity_block = (
         f"\n\n--- Active Professional Identity ---\n\n"
         f"Title: {title}\n"
         f"Summary: {summary}\n\n"
-        f"When discussing Vishal's work, lead with this framing. "
-        f"Emphasize the aspects of his experience most relevant to a "
+        f"When discussing {name}'s work, lead with this framing. "
+        f"Emphasize the aspects of their experience most relevant to a "
         f'"{title}" positioning.\n'
     )
 
@@ -155,11 +279,13 @@ def fetch_url_text(url: str) -> str:
 
 # --- Sidebar ---
 with st.sidebar:
-    st.title("Vishal Sood")
+    st.title("le comptoir")
+    st.caption("*an agency of professionals in transition*")
+
+    st.divider()
 
     # Language selector
     lang_options = list(LANGUAGES.keys())
-    lang_labels = list(LANGUAGES.values())
     lang = st.selectbox(
         "Language",
         options=lang_options,
@@ -170,14 +296,45 @@ with st.sidebar:
 
     st.divider()
 
+    # Candidate selector
+    st.markdown(f"**{t['candidate_label']}**")
+    agent_keys = list(AGENTS.keys())
+
+    # Reset conversation when switching candidates
+    if "current_agent" not in st.session_state:
+        st.session_state.current_agent = agent_keys[0]
+
+    for key in agent_keys:
+        agent = AGENTS[key]
+        is_selected = st.session_state.current_agent == key
+        label = f"**{agent['name']}**" if is_selected else agent["name"]
+        if st.button(
+            f"{agent['name']}\n{agent['tagline']}",
+            key=f"agent_{key}",
+            use_container_width=True,
+            type="primary" if is_selected else "secondary",
+        ):
+            if st.session_state.current_agent != key:
+                st.session_state.current_agent = key
+                st.session_state.messages = []
+                st.session_state.message_count = 0
+                st.rerun()
+
+    current_agent = AGENTS[st.session_state.current_agent]
+    agent_name = current_agent["name"].split()[0]  # first name for UI strings
+
+    st.divider()
+
     # Identity selector
+    identities = current_agent["identities"]
+    default_id = current_agent["default_identity"]
     identity = st.selectbox(
         t["identity_label"],
-        options=list(IDENTITIES.keys()),
-        index=list(IDENTITIES.keys()).index(DEFAULT_IDENTITY),
-        help=t["identity_help"],
+        options=list(identities.keys()),
+        index=list(identities.keys()).index(default_id),
+        help=t["identity_help"].format(name=agent_name),
     )
-    title, summary = IDENTITIES[identity]
+    title, summary = identities[identity]
     st.caption(title)
 
     st.divider()
@@ -216,17 +373,17 @@ with st.sidebar:
     st.markdown(t["try_asking"])
     example_questions = []
     if job_description:
-        example_questions = list(t["job_questions"])
-    example_questions += list(t["example_questions"])
+        example_questions = [q.format(name=agent_name) for q in t["job_questions"]]
+    example_questions += [q.format(name=agent_name) for q in t["example_questions"]]
 
-    for q in example_questions:
-        if st.button(q, use_container_width=True):
+    for i, q in enumerate(example_questions):
+        if st.button(q, key=f"eq_{st.session_state.current_agent}_{i}", use_container_width=True):
             st.session_state.pending_question = q
             st.rerun()
 
     st.divider()
 
-    # Passcode entry in sidebar
+    # Passcode entry
     st.markdown(t["passcode_label"])
     passcode_input = st.text_input(
         "passcode",
@@ -273,20 +430,23 @@ max_tokens = MAX_TOKENS_UNLOCKED if unlocked else MAX_TOKENS_FREE
 is_concise = not unlocked
 
 # --- Load resources ---
-system_prompt = get_system_prompt(identity, job_description, language=lang,
-                                  concise=is_concise)
+system_prompt = get_system_prompt(current_agent, identity, job_description,
+                                  language=lang, concise=is_concise)
 client = get_client()
 
 # --- Header ---
-st.title("Vishal Sood")
+st.title(current_agent["name"])
 st.caption(f"*{title}*")
 
 # --- Tabs ---
-tab_chat, tab_plan = st.tabs([t["tab_chat"], t["tab_plan"]])
+tabs = [t["tab_chat"]]
+if current_agent["has_plan"]:
+    tabs.append(t["tab_plan"])
+active_tabs = st.tabs(tabs)
 
 # ===================== TAB 1: CHAT =====================
-with tab_chat:
-    st.markdown(t["header_tagline"])
+with active_tabs[0]:
+    st.markdown(t["header_tagline"].format(name=agent_name))
     remaining = max_questions - st.session_state.message_count
     remaining = max(remaining, 0)
     if lang == "de":
@@ -307,6 +467,19 @@ with tab_chat:
         prompt = st.session_state.pending_question
         del st.session_state.pending_question
 
+    # Suggestion buttons when conversation is empty
+    if not st.session_state.messages and st.session_state.message_count < max_questions:
+        suggestions = [q.format(name=agent_name) for q in t["example_questions"][:3]]
+        if job_description:
+            suggestions = [q.format(name=agent_name) for q in t["job_questions"][:2]] + suggestions[:1]
+        cols = st.columns(len(suggestions))
+        for i, (col, q) in enumerate(zip(cols, suggestions)):
+            with col:
+                if st.button(q, key=f"suggest_{st.session_state.current_agent}_{i}",
+                             use_container_width=True):
+                    st.session_state.pending_question = q
+                    st.rerun()
+
     # Chat input
     if st.session_state.message_count >= max_questions:
         st.markdown(f"### {t['unlock_heading']}")
@@ -323,7 +496,7 @@ with tab_chat:
                     print(f"ACCESS_REQUEST: {email}")
                     st.rerun()
 
-    elif prompt or (prompt := st.chat_input(t["chat_placeholder"])):
+    elif prompt or (prompt := st.chat_input(t["chat_placeholder"].format(name=agent_name))):
         st.session_state.messages.append({"role": "user", "content": prompt})
         st.session_state.message_count += 1
 
@@ -345,7 +518,7 @@ with tab_chat:
             except anthropic.AuthenticationError:
                 st.error("API configuration error. Please try again later.")
                 full_response = None
-            except anthropic.APIError as e:
+            except anthropic.APIError:
                 st.error("Something went wrong. Please try again.")
                 full_response = None
 
@@ -354,23 +527,24 @@ with tab_chat:
                 {"role": "assistant", "content": full_response}
             )
 
-# ===================== TAB 2: MARKETING PLAN =====================
-with tab_plan:
-    plan = get_plan(lang)
+# ===================== TAB 2: MARKETING PLAN (if available) =====================
+if current_agent["has_plan"] and len(active_tabs) > 1:
+    with active_tabs[1]:
+        plan = get_plan(lang)
 
-    # Download button
-    pdf_bytes = generate_marketing_plan_pdf(lang)
-    st.download_button(
-        label=f"{t['download_pdf']} ({LANGUAGES[lang]})",
-        data=pdf_bytes,
-        file_name=f"marketing-plan-{lang}.pdf",
-        mime="application/pdf",
-    )
+        # Download button
+        pdf_bytes = generate_marketing_plan_pdf(lang)
+        st.download_button(
+            label=f"{t['download_pdf']} ({LANGUAGES[lang]})",
+            data=pdf_bytes,
+            file_name=f"marketing-plan-{lang}.pdf",
+            mime="application/pdf",
+        )
 
-    st.divider()
+        st.divider()
 
-    # Render plan sections
-    for section in plan["sections"]:
-        st.markdown(f"### {section['heading']}")
-        st.markdown(section["body"])
-        st.markdown("---")
+        # Render plan sections
+        for section in plan["sections"]:
+            st.markdown(f"### {section['heading']}")
+            st.markdown(section["body"])
+            st.markdown("---")

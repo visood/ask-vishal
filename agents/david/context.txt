@@ -1,0 +1,107 @@
+--- Professional Identity ---
+
+Name: David Chen
+Title: Technical Writer & Medical Device Documentation Specialist
+Location: Lausanne, Switzerland (American expat, resident since 2014)
+
+Summary: A technical communicator with 15 years of experience creating product catalogs, regulatory documentation, and user manuals for the medical device industry. Built documentation systems for three Swiss medtech companies, managing multilingual catalogs covering thousands of SKUs across surgical instruments, orthopedic implants, and diagnostic equipment. Combines deep knowledge of medical device classification and EU MDR requirements with hands-on expertise in structured content management, translation workflows, and print/digital publishing.
+
+--- Areas of Expertise ---
+
+1. Medical Device Catalogs & Product Documentation
+   - Created and maintained product catalogs for 3,000+ SKUs across surgical instruments, orthopedic implants, and diagnostic equipment
+   - Designed catalog structures that serve sales, regulatory, and logistics teams simultaneously
+   - Managed the full lifecycle: product data collection from engineering, clinical review, regulatory classification, photography, layout, translation, print production, and digital distribution
+   - Built template systems that reduced new product catalog entry time from 2 days to 4 hours
+   - Experienced with catalog formats: print (A4, pocket guides), PDF, web, and e-commerce integration
+
+2. Regulatory Documentation (EU MDR / FDA)
+   - Authored Instructions for Use (IFU) compliant with EU MDR Annex I General Safety and Performance Requirements
+   - Created labeling and packaging documentation per ISO 15223 (medical device symbols) and EU MDR Article 18
+   - Managed documentation for CE marking submissions, including technical files and Declaration of Conformity
+   - Familiar with FDA 510(k) documentation requirements and UDI (Unique Device Identification) system
+   - Maintained traceability between product documentation, risk management files (ISO 14971), and clinical evaluation reports
+
+3. Structured Content Management & Publishing
+   - Implemented CCMS (Component Content Management Systems) for single-source publishing across print, PDF, and web
+   - Experienced with DITA XML, MadCap Flare, Adobe FrameMaker, and InDesign
+   - Designed metadata schemas for medical device product information (classification, material, sterilization method, packaging)
+   - Built automated publishing workflows that generate print-ready catalogs and web content from the same source
+   - Managed PIM (Product Information Management) systems integration with ERP (SAP) and e-commerce platforms
+
+4. Translation & Localization Management
+   - Managed translation of product documentation into 12 languages for European market distribution
+   - Built translation memory systems and terminology databases for medical device content
+   - Designed translation workflows using SDL Trados and memoQ, reducing translation costs by 35%
+   - Coordinated with in-country medical reviewers for clinical accuracy of translated content
+   - Expertise in Swiss multilingual requirements (DE/FR/IT packaging and labeling)
+
+5. Visual Communication & Product Photography
+   - Directed product photography for surgical instruments and implants (studio and operating room settings)
+   - Created technical illustrations for surgical technique guides
+   - Designed infographics and visual aids for sales training materials
+   - Managed 3D rendering workflows for products not yet in physical production
+   - Experience with AR/VR content creation for surgical instrument demonstration
+
+--- Career History ---
+
+Stryker (formerly Spine Division), Lausanne-area (2018-2024)
+Senior Technical Writer, then Documentation Team Lead
+
+Led the documentation team for Stryker's spine surgery instrument portfolio, managing product catalogs, surgical technique guides, and regulatory documentation.
+
+Key contributions:
+- Managed documentation for 1,800+ SKUs across spinal implant systems, instruments, and navigation equipment
+- Led the EU MDR transition project for documentation, re-authoring 400+ IFUs and labeling documents to meet new requirements by the May 2024 deadline
+- Implemented a CCMS (MadCap Flare) that replaced a legacy system of Word documents and InDesign files, enabling single-source publishing and reducing update cycle time by 60%
+- Built an automated translation workflow that cut localization costs by 35% while improving consistency
+- Created surgical technique guides in collaboration with surgeon consultants, combining technical accuracy with visual clarity
+- Managed a team of 3 technical writers and coordinated with external agencies for photography, illustration, and translation
+
+Medartis AG, Basel (2014-2018)
+Technical Writer, Marketing & Product Management
+
+Joined this Swiss orthopedic implant company to build their product documentation capability.
+
+Key contributions:
+- Created the company's first structured product catalog system, replacing ad-hoc sales sheets with a comprehensive, multilingual catalog covering 2,000+ items
+- Designed the catalog template system and taxonomy that the company still uses
+- Authored IFUs and labeling for CE-marked products across the titanium plating system portfolio
+- Managed the transition from paper-only catalogs to a digital catalog platform with search, filtering, and PDF generation
+- Worked closely with the Swiss-German engineering team, translating technical specifications into clear product descriptions
+
+Zimmer Biomet, Warsaw, Indiana, USA (2009-2014)
+Technical Writer, Knee Reconstruction Division
+
+Started career in medtech documentation at Zimmer's headquarters in Indiana.
+
+Key contributions:
+- Authored surgical technique guides for knee reconstruction implant systems
+- Created product catalog content for the US and international markets
+- Learned the medical device industry from the ground up: materials science, manufacturing processes, sterilization, packaging, regulatory classification
+- First exposure to the European market when assigned to support the EMEA documentation team
+- This role led to the opportunity to relocate to Switzerland
+
+--- Education ---
+
+BA in English, Purdue University, West Lafayette, Indiana (2009)
+Minor in Technical & Professional Writing
+Certified Professional Technical Communicator (CPTC), Society for Technical Communication (2016)
+EU MDR Documentation Specialist Certificate, BSI Group (2021)
+
+--- Languages ---
+
+English: Native (American)
+French: Professional working proficiency (B2, acquired through 10 years in Romandie)
+German: Intermediate (B1, used in professional context at Basel and with German-speaking colleagues)
+
+--- Professional Interests ---
+
+David is looking for roles that leverage his deep medtech documentation expertise. He is interested in:
+- Documentation management or content strategy roles at Swiss medtech companies
+- Regulatory affairs positions focused on technical documentation and labeling
+- Product information management (PIM) roles at medical device or life sciences companies
+- Content strategy consulting for medtech companies preparing for EU MDR compliance
+- Digital transformation roles: helping medtech companies move from traditional catalogs to digital-first product content
+
+After 15 years in medical device documentation --- from Indiana to Basel to Lausanne --- David brings a rare combination: native English writing skills, Swiss multilingual publishing experience, deep regulatory knowledge, and the ability to bridge engineering teams and market-facing content. He understands both the American and European medical device markets from the inside.

@@ -3,6 +3,8 @@
 Three languages for the Swiss market: English, French, German.
 The portfolio content stays in English — Claude synthesizes answers
 in the visitor's selected language.
+
+Strings containing {name} are formatted at runtime with the active candidate's name.
 """
 
 LANGUAGES = {
@@ -13,13 +15,14 @@ LANGUAGES = {
 
 STRINGS = {
     "en": {
-        "page_title": "Vishal Sood — le comptoir",
+        "page_title": "le comptoir",
         "tab_chat": "le comptoir",
         "tab_plan": "Marketing Plan",
+        "candidate_label": "Talk to",
         "download_pdf": "Download PDF",
-        "header_tagline": "*le comptoir* — ask about his work",
+        "header_tagline": "*le comptoir* — ask about {name}'s work",
         "identity_label": "Professional identity",
-        "identity_help": "Changes how the agent frames Vishal's experience",
+        "identity_help": "Changes how the agent frames this candidate's experience",
         "job_header": "**Match against a job**",
         "job_radio_none": "None",
         "job_radio_paste": "Paste text",
@@ -29,18 +32,16 @@ STRINGS = {
         "job_url_placeholder": "https://...",
         "job_fetching": "Fetching...",
         "try_asking": "**Try asking:**",
-        "chat_placeholder": "Ask about Vishal's work...",
+        "chat_placeholder": "Ask about {name}'s work...",
         "remaining": "{n} free question{s} remaining",
         "exhausted": (
             "You've used all {n} questions in the free tier. "
             "A paid version with extended conversations and deeper analysis "
-            "is coming soon.\n\n"
-            "In the meantime, reach Vishal directly at "
-            "**vishal.chandra.sood@protonmail.com**"
+            "is coming soon."
         ),
         "footer": (
-            "*le comptoir* — an AI agent who knows Vishal's work. "
-            "Answers are grounded in his actual portfolio."
+            "*le comptoir* — AI agents who know these professionals' work. "
+            "Answers are grounded in actual portfolios."
         ),
         "cost_label": "Est. cost this session: ${cost:.2f}",
         "unlock_heading": "Want deeper answers?",
@@ -51,33 +52,34 @@ STRINGS = {
         ),
         "email_placeholder": "you@company.com",
         "email_submit": "Request access",
-        "email_thanks": "Thank you! Vishal will send you a passcode shortly.",
+        "email_thanks": "Thank you! We'll send you a passcode shortly.",
         "passcode_label": "Have a passcode?",
         "passcode_placeholder": "Enter passcode",
         "passcode_submit": "Unlock",
         "passcode_invalid": "Invalid passcode. Please check and try again.",
         "passcode_success": "Unlocked! You now have extended access.",
         "example_questions": [
-            "What did Vishal build at the Blue Brain Project?",
-            "How does his physics background apply to quantitative finance?",
-            "Tell me about his publications on complex networks.",
-            "What experience does he have with HPC and parallel computing?",
-            "How did he transition between scientific domains?",
+            "What are {name}'s strongest technical skills?",
+            "Tell me about {name}'s most impactful project.",
+            "How did {name} transition between roles or domains?",
+            "What kind of teams has {name} worked with?",
+            "What makes {name} stand out as a candidate?",
         ],
         "job_questions": [
-            "How does Vishal match this role?",
-            "What gaps should he address for this position?",
+            "How does {name} match this role?",
+            "What gaps should {name} address for this position?",
             "Write a cover letter for this role.",
         ],
     },
     "fr": {
-        "page_title": "Vishal Sood — le comptoir",
+        "page_title": "le comptoir",
         "tab_chat": "le comptoir",
         "tab_plan": "Plan Marketing",
+        "candidate_label": "Parler avec",
         "download_pdf": "Télécharger PDF",
-        "header_tagline": "*le comptoir* — renseignez-vous sur son travail",
+        "header_tagline": "*le comptoir* — renseignez-vous sur le travail de {name}",
         "identity_label": "Identité professionnelle",
-        "identity_help": "Change la manière dont l'agent présente l'expérience de Vishal",
+        "identity_help": "Change la manière dont l'agent présente l'expérience du candidat",
         "job_header": "**Comparer à un poste**",
         "job_radio_none": "Aucun",
         "job_radio_paste": "Coller le texte",
@@ -87,18 +89,16 @@ STRINGS = {
         "job_url_placeholder": "https://...",
         "job_fetching": "Chargement...",
         "try_asking": "**Essayez de demander :**",
-        "chat_placeholder": "Posez une question sur le travail de Vishal...",
+        "chat_placeholder": "Posez une question sur le travail de {name}...",
         "remaining": "{n} question{s} gratuite{s} restante{s}",
         "exhausted": (
             "Vous avez utilisé vos {n} questions gratuites. "
             "Une version payante avec des conversations plus approfondies "
-            "sera bientôt disponible.\n\n"
-            "En attendant, contactez Vishal directement à "
-            "**vishal.chandra.sood@protonmail.com**"
+            "sera bientôt disponible."
         ),
         "footer": (
-            "*le comptoir* — un agent IA qui connaît le travail de Vishal. "
-            "Les réponses sont fondées sur son portfolio."
+            "*le comptoir* — des agents IA qui connaissent le travail de ces professionnels. "
+            "Les réponses sont fondées sur leurs portfolios."
         ),
         "cost_label": "Coût estimé de la session : ${cost:.2f}",
         "unlock_heading": "Envie de réponses plus détaillées ?",
@@ -109,33 +109,34 @@ STRINGS = {
         ),
         "email_placeholder": "vous@entreprise.com",
         "email_submit": "Demander l'accès",
-        "email_thanks": "Merci ! Vishal vous enverra un code d'accès sous peu.",
+        "email_thanks": "Merci ! Nous vous enverrons un code d'accès sous peu.",
         "passcode_label": "Vous avez un code ?",
         "passcode_placeholder": "Entrez le code",
         "passcode_submit": "Débloquer",
         "passcode_invalid": "Code invalide. Veuillez vérifier et réessayer.",
         "passcode_success": "Débloqué ! Vous avez maintenant un accès étendu.",
         "example_questions": [
-            "Qu'a construit Vishal au Blue Brain Project ?",
-            "Comment sa formation en physique s'applique-t-elle à la finance quantitative ?",
-            "Parlez-moi de ses publications sur les réseaux complexes.",
-            "Quelle expérience a-t-il en HPC et calcul parallèle ?",
-            "Comment a-t-il évolué entre les domaines scientifiques ?",
+            "Quelles sont les compétences techniques clés de {name} ?",
+            "Parlez-moi du projet le plus marquant de {name}.",
+            "Comment {name} a évolué entre différents domaines ?",
+            "Avec quels types d'équipes {name} a travaillé ?",
+            "Qu'est-ce qui distingue {name} comme candidat ?",
         ],
         "job_questions": [
-            "En quoi Vishal correspond-il à ce poste ?",
-            "Quelles lacunes devrait-il combler pour ce poste ?",
+            "En quoi {name} correspond à ce poste ?",
+            "Quelles lacunes {name} devrait combler pour ce poste ?",
             "Rédigez une lettre de motivation pour ce poste.",
         ],
     },
     "de": {
-        "page_title": "Vishal Sood — le comptoir",
+        "page_title": "le comptoir",
         "tab_chat": "le comptoir",
         "tab_plan": "Marketingkonzept",
+        "candidate_label": "Sprechen mit",
         "download_pdf": "PDF herunterladen",
-        "header_tagline": "*le comptoir* — erfahren Sie mehr über seine Arbeit",
+        "header_tagline": "*le comptoir* — erfahren Sie mehr über {name}s Arbeit",
         "identity_label": "Berufliche Identität",
-        "identity_help": "Ändert wie der Agent Vishals Erfahrung präsentiert",
+        "identity_help": "Ändert wie der Agent die Erfahrung des Kandidaten präsentiert",
         "job_header": "**Mit einer Stelle vergleichen**",
         "job_radio_none": "Keine",
         "job_radio_paste": "Text einfügen",
@@ -145,18 +146,16 @@ STRINGS = {
         "job_url_placeholder": "https://...",
         "job_fetching": "Wird geladen...",
         "try_asking": "**Probieren Sie zu fragen:**",
-        "chat_placeholder": "Fragen Sie nach Vishals Arbeit...",
+        "chat_placeholder": "Fragen Sie nach {name}s Arbeit...",
         "remaining": "{n} kostenlose Frage{n_de} übrig",
         "exhausted": (
             "Sie haben alle {n} kostenlosen Fragen aufgebraucht. "
             "Eine kostenpflichtige Version mit erweiterten Gesprächen und "
-            "tieferer Analyse kommt bald.\n\n"
-            "In der Zwischenzeit erreichen Sie Vishal direkt unter "
-            "**vishal.chandra.sood@protonmail.com**"
+            "tieferer Analyse kommt bald."
         ),
         "footer": (
-            "*le comptoir* — ein KI-Agent, der Vishals Arbeit kennt. "
-            "Antworten basieren auf seinem Portfolio."
+            "*le comptoir* — KI-Agenten, die die Arbeit dieser Fachleute kennen. "
+            "Antworten basieren auf echten Portfolios."
         ),
         "cost_label": "Geschätzte Kosten dieser Sitzung: ${cost:.2f}",
         "unlock_heading": "Möchten Sie ausführlichere Antworten?",
@@ -167,22 +166,22 @@ STRINGS = {
         ),
         "email_placeholder": "sie@firma.ch",
         "email_submit": "Zugang anfordern",
-        "email_thanks": "Vielen Dank! Vishal wird Ihnen in Kürze einen Zugangscode senden.",
+        "email_thanks": "Vielen Dank! Wir senden Ihnen in Kürze einen Zugangscode.",
         "passcode_label": "Haben Sie einen Zugangscode?",
         "passcode_placeholder": "Code eingeben",
         "passcode_submit": "Freischalten",
         "passcode_invalid": "Ungültiger Code. Bitte überprüfen und erneut versuchen.",
         "passcode_success": "Freigeschaltet! Sie haben jetzt erweiterten Zugang.",
         "example_questions": [
-            "Was hat Vishal beim Blue Brain Project entwickelt?",
-            "Wie lässt sich sein Physik-Hintergrund auf quantitative Finanzen anwenden?",
-            "Erzählen Sie mir von seinen Publikationen zu komplexen Netzwerken.",
-            "Welche Erfahrung hat er mit HPC und parallelem Rechnen?",
-            "Wie hat er den Wechsel zwischen wissenschaftlichen Bereichen vollzogen?",
+            "Was sind {name}s wichtigste technische Fähigkeiten?",
+            "Erzählen Sie mir vom wirkungsvollsten Projekt von {name}.",
+            "Wie hat {name} zwischen verschiedenen Bereichen gewechselt?",
+            "Mit welchen Teams hat {name} zusammengearbeitet?",
+            "Was zeichnet {name} als Kandidat aus?",
         ],
         "job_questions": [
-            "Wie passt Vishal zu dieser Stelle?",
-            "Welche Lücken sollte er für diese Position schliessen?",
+            "Wie passt {name} zu dieser Stelle?",
+            "Welche Lücken sollte {name} für diese Position schliessen?",
             "Schreiben Sie ein Bewerbungsschreiben für diese Stelle.",
         ],
     },
