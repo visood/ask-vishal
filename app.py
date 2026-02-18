@@ -18,6 +18,8 @@ from pathlib import Path
 
 from prompt import build_system_prompt
 from i18n import LANGUAGES, STRINGS
+from marketing_plan import get_plan
+from generate_pdf import generate_marketing_plan_pdf
 
 
 # --- Configuration ---
@@ -278,65 +280,90 @@ client = get_client()
 # --- Header ---
 st.title("Vishal Sood")
 st.caption(f"*{title}*")
-st.markdown(t["header_tagline"])
-remaining = max_questions - st.session_state.message_count
-remaining = max(remaining, 0)
-if lang == "de":
-    plural = "n" if remaining != 1 else ""
-    st.caption(t["remaining"].format(n=remaining, n_de=plural))
-else:
-    plural = "s" if remaining != 1 else ""
-    st.caption(t["remaining"].format(n=remaining, s=plural))
 
-# --- Display conversation history ---
-for msg in st.session_state.messages:
-    with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
+# --- Tabs ---
+tab_chat, tab_plan = st.tabs([t["tab_chat"], t["tab_plan"]])
 
-# --- Handle pending question from sidebar buttons ---
-prompt = None
-if "pending_question" in st.session_state:
-    prompt = st.session_state.pending_question
-    del st.session_state.pending_question
-
-# --- Chat input ---
-if st.session_state.message_count >= max_questions:
-    # Show email collection form
-    st.markdown(f"### {t['unlock_heading']}")
-    st.markdown(t["unlock_body"].format(n=max_questions))
-
-    if st.session_state.email_submitted:
-        st.success(t["email_thanks"])
+# ===================== TAB 1: CHAT =====================
+with tab_chat:
+    st.markdown(t["header_tagline"])
+    remaining = max_questions - st.session_state.message_count
+    remaining = max(remaining, 0)
+    if lang == "de":
+        plural = "n" if remaining != 1 else ""
+        st.caption(t["remaining"].format(n=remaining, n_de=plural))
     else:
-        email = st.text_input("email", placeholder=t["email_placeholder"],
-                              label_visibility="collapsed")
-        if st.button(t["email_submit"]):
-            if email and "@" in email:
-                st.session_state.email_submitted = True
-                # Log email to console — visible in Streamlit Cloud logs
-                print(f"ACCESS_REQUEST: {email}")
-                st.rerun()
+        plural = "s" if remaining != 1 else ""
+        st.caption(t["remaining"].format(n=remaining, s=plural))
 
-elif prompt or (prompt := st.chat_input(t["chat_placeholder"])):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    st.session_state.message_count += 1
+    # Display conversation history
+    for msg in st.session_state.messages:
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
 
-    with st.chat_message("user"):
-        st.markdown(prompt)
+    # Handle pending question from sidebar buttons
+    prompt = None
+    if "pending_question" in st.session_state:
+        prompt = st.session_state.pending_question
+        del st.session_state.pending_question
 
-    with st.chat_message("assistant"):
-        with client.messages.stream(
-            model=MODEL,
-            max_tokens=max_tokens,
-            system=system_prompt,
-            messages=[
-                {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
-            ],
-        ) as stream:
-            full_response = st.write_stream(stream.text_stream)
+    # Chat input
+    if st.session_state.message_count >= max_questions:
+        st.markdown(f"### {t['unlock_heading']}")
+        st.markdown(t["unlock_body"].format(n=max_questions))
 
-    if full_response:
-        st.session_state.messages.append(
-            {"role": "assistant", "content": full_response}
-        )
+        if st.session_state.email_submitted:
+            st.success(t["email_thanks"])
+        else:
+            email = st.text_input("email", placeholder=t["email_placeholder"],
+                                  label_visibility="collapsed")
+            if st.button(t["email_submit"]):
+                if email and "@" in email:
+                    st.session_state.email_submitted = True
+                    print(f"ACCESS_REQUEST: {email}")
+                    st.rerun()
+
+    elif prompt or (prompt := st.chat_input(t["chat_placeholder"])):
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        st.session_state.message_count += 1
+
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        with st.chat_message("assistant"):
+            with client.messages.stream(
+                model=MODEL,
+                max_tokens=max_tokens,
+                system=system_prompt,
+                messages=[
+                    {"role": m["role"], "content": m["content"]}
+                    for m in st.session_state.messages
+                ],
+            ) as stream:
+                full_response = st.write_stream(stream.text_stream)
+
+        if full_response:
+            st.session_state.messages.append(
+                {"role": "assistant", "content": full_response}
+            )
+
+# ===================== TAB 2: MARKETING PLAN =====================
+with tab_plan:
+    plan = get_plan(lang)
+
+    # Download button
+    pdf_bytes = generate_marketing_plan_pdf(lang)
+    st.download_button(
+        label=f"{t['download_pdf']} ({LANGUAGES[lang]})",
+        data=pdf_bytes,
+        file_name=f"marketing-plan-{lang}.pdf",
+        mime="application/pdf",
+    )
+
+    st.divider()
+
+    # Render plan sections
+    for section in plan["sections"]:
+        st.markdown(f"### {section['heading']}")
+        st.markdown(section["body"])
+        st.markdown("---")

@@ -14,6 +14,9 @@ LANGUAGES = {
 STRINGS = {
     "en": {
         "page_title": "Vishal Sood — le comptoir",
+        "tab_chat": "le comptoir",
+        "tab_plan": "Marketing Plan",
+        "download_pdf": "Download PDF",
         "header_tagline": "*le comptoir* — ask about his work",
         "identity_label": "Professional identity",
         "identity_help": "Changes how the agent frames Vishal's experience",
@@ -69,6 +72,9 @@ STRINGS = {
     },
     "fr": {
         "page_title": "Vishal Sood — le comptoir",
+        "tab_chat": "le comptoir",
+        "tab_plan": "Plan Marketing",
+        "download_pdf": "Télécharger PDF",
         "header_tagline": "*le comptoir* — renseignez-vous sur son travail",
         "identity_label": "Identité professionnelle",
         "identity_help": "Change la manière dont l'agent présente l'expérience de Vishal",
@@ -124,6 +130,9 @@ STRINGS = {
     },
     "de": {
         "page_title": "Vishal Sood — le comptoir",
+        "tab_chat": "le comptoir",
+        "tab_plan": "Marketingkonzept",
+        "download_pdf": "PDF herunterladen",
         "header_tagline": "*le comptoir* — erfahren Sie mehr über seine Arbeit",
         "identity_label": "Berufliche Identität",
         "identity_help": "Ändert wie der Agent Vishals Erfahrung präsentiert",
