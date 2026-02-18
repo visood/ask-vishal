@@ -464,8 +464,8 @@ with active_tabs[0]:
         prompt = st.session_state.pending_question
         del st.session_state.pending_question
 
-    # Suggestion buttons when conversation is empty
-    if not st.session_state.messages and st.session_state.message_count < max_questions:
+    # Suggestion buttons
+    if st.session_state.message_count < max_questions:
         # Pick random questions from the pool, stable per candidate
         rng = random.Random(st.session_state.current_agent)
         if job_description:
