@@ -63,6 +63,19 @@ detailed experience at each position, publications, and project deep-dives.
 """
 
 
+BREVITY_INSTRUCTION = """\
+
+
+## Brevity — Free Tier
+
+This visitor is in the free preview. You MUST be extremely concise:
+- Maximum 2-3 sentences per response. No exceptions.
+- Give the headline answer only — the single most important point, backed by one piece of evidence.
+- Do not elaborate, list multiple examples, or offer to say more.
+- If the question is broad, pick the single strongest angle and answer just that.
+- Think of it as a teaser: enough to demonstrate depth, not enough to satisfy fully."""
+
+
 LANGUAGE_INSTRUCTION = """\
 
 
@@ -75,14 +88,18 @@ but formulate all your answers in {language_name}. Use natural, professional \
 tool names, programming languages) may remain in English where that is standard practice."""
 
 
-def build_system_prompt(content: str, language: str = "en") -> str:
+def build_system_prompt(content: str, language: str = "en",
+                        concise: bool = False) -> str:
     """Build the full system prompt by injecting assembled content.
 
     Args:
         content: The assembled portfolio text with identity/job blocks.
         language: Language code ('en', 'fr', 'de').
+        concise: If True, enforce strict brevity (free tier).
     """
     prompt = SYSTEM_PROMPT_TEMPLATE.format(content=content)
+    if concise:
+        prompt += BREVITY_INSTRUCTION
     if language != "en":
         language_name = LANGUAGES.get(language, "English")
         prompt += LANGUAGE_INSTRUCTION.format(language_name=language_name)

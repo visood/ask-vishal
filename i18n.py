@@ -40,6 +40,20 @@ STRINGS = {
             "Answers are grounded in his actual portfolio."
         ),
         "cost_label": "Est. cost this session: ${cost:.2f}",
+        "unlock_heading": "Want deeper answers?",
+        "unlock_body": (
+            "You've used your {n} free preview questions. "
+            "Leave your email to receive a passcode for extended access "
+            "with longer, more detailed responses."
+        ),
+        "email_placeholder": "you@company.com",
+        "email_submit": "Request access",
+        "email_thanks": "Thank you! Vishal will send you a passcode shortly.",
+        "passcode_label": "Have a passcode?",
+        "passcode_placeholder": "Enter passcode",
+        "passcode_submit": "Unlock",
+        "passcode_invalid": "Invalid passcode. Please check and try again.",
+        "passcode_success": "Unlocked! You now have extended access.",
         "example_questions": [
             "What did Vishal build at the Blue Brain Project?",
             "How does his physics background apply to quantitative finance?",
@@ -81,6 +95,20 @@ STRINGS = {
             "Les réponses sont fondées sur son portfolio."
         ),
         "cost_label": "Coût estimé de la session : ${cost:.2f}",
+        "unlock_heading": "Envie de réponses plus détaillées ?",
+        "unlock_body": (
+            "Vous avez utilisé vos {n} questions d'aperçu gratuites. "
+            "Laissez votre email pour recevoir un code d'accès "
+            "avec des réponses plus longues et détaillées."
+        ),
+        "email_placeholder": "vous@entreprise.com",
+        "email_submit": "Demander l'accès",
+        "email_thanks": "Merci ! Vishal vous enverra un code d'accès sous peu.",
+        "passcode_label": "Vous avez un code ?",
+        "passcode_placeholder": "Entrez le code",
+        "passcode_submit": "Débloquer",
+        "passcode_invalid": "Code invalide. Veuillez vérifier et réessayer.",
+        "passcode_success": "Débloqué ! Vous avez maintenant un accès étendu.",
         "example_questions": [
             "Qu'a construit Vishal au Blue Brain Project ?",
             "Comment sa formation en physique s'applique-t-elle à la finance quantitative ?",
@@ -122,6 +150,20 @@ STRINGS = {
             "Antworten basieren auf seinem Portfolio."
         ),
         "cost_label": "Geschätzte Kosten dieser Sitzung: ${cost:.2f}",
+        "unlock_heading": "Möchten Sie ausführlichere Antworten?",
+        "unlock_body": (
+            "Sie haben Ihre {n} kostenlosen Vorschau-Fragen aufgebraucht. "
+            "Hinterlassen Sie Ihre E-Mail, um einen Zugangscode für erweiterten "
+            "Zugang mit längeren, detaillierteren Antworten zu erhalten."
+        ),
+        "email_placeholder": "sie@firma.ch",
+        "email_submit": "Zugang anfordern",
+        "email_thanks": "Vielen Dank! Vishal wird Ihnen in Kürze einen Zugangscode senden.",
+        "passcode_label": "Haben Sie einen Zugangscode?",
+        "passcode_placeholder": "Code eingeben",
+        "passcode_submit": "Freischalten",
+        "passcode_invalid": "Ungültiger Code. Bitte überprüfen und erneut versuchen.",
+        "passcode_success": "Freigeschaltet! Sie haben jetzt erweiterten Zugang.",
         "example_questions": [
             "Was hat Vishal beim Blue Brain Project entwickelt?",
             "Wie lässt sich sein Physik-Hintergrund auf quantitative Finanzen anwenden?",

@@ -22,8 +22,10 @@ from i18n import LANGUAGES, STRINGS
 
 # --- Configuration ---
 MODEL = "claude-haiku-4-5-20251001"
-MAX_TOKENS = 1024
-MAX_MESSAGES_PER_SESSION = 5
+MAX_TOKENS_FREE = 256
+MAX_TOKENS_UNLOCKED = 1024
+FREE_QUESTIONS = 5
+UNLOCKED_QUESTIONS = 30
 CONTEXT_FILE = Path(__file__).parent / "context.txt"
 
 # Professional identity variants: (label, title, summary)
@@ -98,7 +100,7 @@ def get_client():
 
 
 def get_system_prompt(identity_key: str, job_description: str = "",
-                      language: str = "en") -> str:
+                      language: str = "en", concise: bool = False) -> str:
     """Build system prompt with identity framing and optional job context."""
     content = get_base_content()
     title, summary = IDENTITIES[identity_key]
@@ -130,7 +132,7 @@ def get_system_prompt(identity_key: str, job_description: str = "",
         )
 
     return build_system_prompt(content + identity_block + job_block,
-                               language=language)
+                               language=language, concise=concise)
 
 
 def fetch_url_text(url: str) -> str:
@@ -221,6 +223,29 @@ with st.sidebar:
             st.rerun()
 
     st.divider()
+
+    # Passcode entry in sidebar
+    st.markdown(t["passcode_label"])
+    passcode_input = st.text_input(
+        "passcode",
+        placeholder=t["passcode_placeholder"],
+        label_visibility="collapsed",
+    )
+    if st.button(t["passcode_submit"], use_container_width=True):
+        valid_codes = set()
+        try:
+            raw = st.secrets.get("PASSCODES", "")
+            valid_codes = {c.strip() for c in raw.split(",") if c.strip()}
+        except (FileNotFoundError, KeyError):
+            pass
+        if passcode_input.strip() in valid_codes:
+            st.session_state.unlocked = True
+            st.success(t["passcode_success"])
+            st.rerun()
+        elif passcode_input.strip():
+            st.error(t["passcode_invalid"])
+
+    st.divider()
     st.caption(t["footer"])
     st.caption(f"Model: `{MODEL}`")
     used = st.session_state.get("message_count", 0)
@@ -234,16 +259,28 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 if "message_count" not in st.session_state:
     st.session_state.message_count = 0
+if "unlocked" not in st.session_state:
+    st.session_state.unlocked = False
+if "email_submitted" not in st.session_state:
+    st.session_state.email_submitted = False
+
+# --- Determine tier ---
+unlocked = st.session_state.unlocked
+max_questions = UNLOCKED_QUESTIONS if unlocked else FREE_QUESTIONS
+max_tokens = MAX_TOKENS_UNLOCKED if unlocked else MAX_TOKENS_FREE
+is_concise = not unlocked
 
 # --- Load resources ---
-system_prompt = get_system_prompt(identity, job_description, language=lang)
+system_prompt = get_system_prompt(identity, job_description, language=lang,
+                                  concise=is_concise)
 client = get_client()
 
 # --- Header ---
 st.title("Vishal Sood")
 st.caption(f"*{title}*")
 st.markdown(t["header_tagline"])
-remaining = MAX_MESSAGES_PER_SESSION - st.session_state.message_count
+remaining = max_questions - st.session_state.message_count
+remaining = max(remaining, 0)
 if lang == "de":
     plural = "n" if remaining != 1 else ""
     st.caption(t["remaining"].format(n=remaining, n_de=plural))
@@ -263,8 +300,23 @@ if "pending_question" in st.session_state:
     del st.session_state.pending_question
 
 # --- Chat input ---
-if st.session_state.message_count >= MAX_MESSAGES_PER_SESSION:
-    st.info(t["exhausted"].format(n=MAX_MESSAGES_PER_SESSION))
+if st.session_state.message_count >= max_questions:
+    # Show email collection form
+    st.markdown(f"### {t['unlock_heading']}")
+    st.markdown(t["unlock_body"].format(n=max_questions))
+
+    if st.session_state.email_submitted:
+        st.success(t["email_thanks"])
+    else:
+        email = st.text_input("email", placeholder=t["email_placeholder"],
+                              label_visibility="collapsed")
+        if st.button(t["email_submit"]):
+            if email and "@" in email:
+                st.session_state.email_submitted = True
+                # Log email to console — visible in Streamlit Cloud logs
+                print(f"ACCESS_REQUEST: {email}")
+                st.rerun()
+
 elif prompt or (prompt := st.chat_input(t["chat_placeholder"])):
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.session_state.message_count += 1
@@ -275,7 +327,7 @@ elif prompt or (prompt := st.chat_input(t["chat_placeholder"])):
     with st.chat_message("assistant"):
         with client.messages.stream(
             model=MODEL,
-            max_tokens=MAX_TOKENS,
+            max_tokens=max_tokens,
             system=system_prompt,
             messages=[
                 {"role": m["role"], "content": m["content"]}
