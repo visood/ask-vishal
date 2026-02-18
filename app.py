@@ -331,16 +331,23 @@ with tab_chat:
             st.markdown(prompt)
 
         with st.chat_message("assistant"):
-            with client.messages.stream(
-                model=MODEL,
-                max_tokens=max_tokens,
-                system=system_prompt,
-                messages=[
-                    {"role": m["role"], "content": m["content"]}
-                    for m in st.session_state.messages
-                ],
-            ) as stream:
-                full_response = st.write_stream(stream.text_stream)
+            try:
+                with client.messages.stream(
+                    model=MODEL,
+                    max_tokens=max_tokens,
+                    system=system_prompt,
+                    messages=[
+                        {"role": m["role"], "content": m["content"]}
+                        for m in st.session_state.messages
+                    ],
+                ) as stream:
+                    full_response = st.write_stream(stream.text_stream)
+            except anthropic.AuthenticationError:
+                st.error("API configuration error. Please try again later.")
+                full_response = None
+            except anthropic.APIError as e:
+                st.error("Something went wrong. Please try again.")
+                full_response = None
 
         if full_response:
             st.session_state.messages.append(
