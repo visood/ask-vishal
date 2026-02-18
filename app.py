@@ -237,10 +237,11 @@ system_prompt = get_system_prompt(identity, job_description)
 client = get_client()
 
 # --- Header ---
-st.title("The Knowledgeable Colleague")
+st.title("Vishal Sood")
+st.caption(f"*{title}*")
+st.markdown("**The Knowledgeable Colleague** — ask me about his work, expertise, and experience.")
 remaining = MAX_MESSAGES_PER_SESSION - st.session_state.message_count
-st.caption(f"*{title}* — Ask me about Vishal Sood's work, expertise, and experience. "
-           f"({remaining} free question{'s' if remaining != 1 else ''} remaining)")
+st.caption(f"{remaining} free question{'s' if remaining != 1 else ''} remaining")
 
 # --- Display conversation history ---
 for msg in st.session_state.messages:
