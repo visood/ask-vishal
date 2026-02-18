@@ -72,7 +72,7 @@ DEFAULT_IDENTITY = "Research Engineer"
 
 # --- Page config ---
 st.set_page_config(
-    page_title="Vishal Sood — The Knowledgeable Colleague",
+    page_title="Vishal Sood — le comptoir",
     page_icon="🔬",
     layout="centered",
 )
@@ -215,7 +215,7 @@ with st.sidebar:
 
     st.divider()
     st.caption(
-        "This is an AI colleague who knows Vishal's work. "
+        "*le comptoir* — an AI agent who knows Vishal's work. "
         "Answers are grounded in his actual portfolio."
     )
     st.caption(f"Model: `{MODEL}`")
@@ -239,7 +239,7 @@ client = get_client()
 # --- Header ---
 st.title("Vishal Sood")
 st.caption(f"*{title}*")
-st.markdown("**The Knowledgeable Colleague** — ask me about his work, expertise, and experience.")
+st.markdown("*le comptoir* — ask about his work")
 remaining = MAX_MESSAGES_PER_SESSION - st.session_state.message_count
 st.caption(f"{remaining} free question{'s' if remaining != 1 else ''} remaining")
 
