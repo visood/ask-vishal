@@ -482,7 +482,13 @@ with active_tabs[0]:
                     st.session_state.pending_question = q
                     st.rerun()
 
-    # Chat input
+    # Chat input — always rendered so the input box is visible
+    chat_prompt = st.chat_input(t["chat_placeholder"].format(name=agent_name))
+
+    # Use pending sidebar question or typed input
+    if prompt is None:
+        prompt = chat_prompt
+
     if st.session_state.message_count >= max_questions:
         st.markdown(f"### {t['unlock_heading']}")
         st.markdown(t["unlock_body"].format(n=max_questions))
@@ -498,7 +504,7 @@ with active_tabs[0]:
                     print(f"ACCESS_REQUEST: {email}")
                     st.rerun()
 
-    elif prompt or (prompt := st.chat_input(t["chat_placeholder"].format(name=agent_name))):
+    elif prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
         st.session_state.message_count += 1
 
