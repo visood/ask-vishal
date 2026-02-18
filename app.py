@@ -330,7 +330,8 @@ with st.sidebar:
         help=t["identity_help"].format(name=agent_name),
     )
     title, summary = identities[identity]
-    st.caption(title)
+    st.caption(f"**{title}**")
+    st.caption(summary)
 
     st.divider()
 
