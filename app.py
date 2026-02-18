@@ -297,28 +297,23 @@ with st.sidebar:
     st.divider()
 
     # Candidate selector
-    st.markdown(f"**{t['candidate_label']}**")
     agent_keys = list(AGENTS.keys())
-
-    # Reset conversation when switching candidates
     if "current_agent" not in st.session_state:
         st.session_state.current_agent = agent_keys[0]
 
-    for key in agent_keys:
-        agent = AGENTS[key]
-        is_selected = st.session_state.current_agent == key
-        label = f"**{agent['name']}**" if is_selected else agent["name"]
-        if st.button(
-            f"{agent['name']}\n{agent['tagline']}",
-            key=f"agent_{key}",
-            use_container_width=True,
-            type="primary" if is_selected else "secondary",
-        ):
-            if st.session_state.current_agent != key:
-                st.session_state.current_agent = key
-                st.session_state.messages = []
-                st.session_state.message_count = 0
-                st.rerun()
+    def _on_agent_change():
+        st.session_state.current_agent = st.session_state._agent_select
+        st.session_state.messages = []
+        st.session_state.message_count = 0
+
+    st.selectbox(
+        t["candidate_label"],
+        options=agent_keys,
+        format_func=lambda k: f"{AGENTS[k]['name']} — {AGENTS[k]['tagline']}",
+        index=agent_keys.index(st.session_state.current_agent),
+        key="_agent_select",
+        on_change=_on_agent_change,
+    )
 
     current_agent = AGENTS[st.session_state.current_agent]
     agent_name = current_agent["name"].split()[0]  # first name for UI strings
